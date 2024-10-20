@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FloatingInbox } from "./FloatingInbox-text";
 import { ethers } from "ethers";
+
 const InboxPage = ({ isPWA = false }) => {
   const [signer, setSigner] = useState(null);
   const [walletConnected, setWalletConnected] = useState(false); // Add state for wallet connection
@@ -101,37 +102,52 @@ const InboxPage = ({ isPWA = false }) => {
     }
   }, []);
 
+  const products = [
+    { name: "Burrito", price: 11.00, image: "/burrito.png" }, // Updated to .png
+    { name: "Tacos", price: 9.75, image: "/tacos.png" },     // Updated to .png
+    { name: "Chips", price: 10.50, image: "/chips.png" },
+  ];
+
   return (
-    <>
+    <div className="container">
       {!isPWA && (
-        <div style={styles.HomePageWrapperStyle}>
+        <div>
           <button
             className="home-button"
-            style={{ ...styles.ButtonStyledStyle, marginLeft: 10 }}
             onClick={() => connectWallet()}>
             {walletConnected ? "Connected" : "Connect Wallet"}
           </button>
           {walletConnected && (
             <button
               className="home-button"
-              style={{ ...styles.ButtonStyledStyle, marginLeft: 10 }}
               onClick={() => disconnectWallet()}>
               Logout
             </button>
           )}
-          <h1>Quickstart Inbox </h1>
-          <span>See in mobile for a mobile layout</span>
+          <h1>Chipotle</h1>
+          
+          {products.map((product, index) => (
+            <div key={index} className="product">
+              <img 
+                src={product.image} 
+                alt={`Chipotle ${product.name}`} 
+                className="product-image"
+              />
+              <h2>{product.name}</h2>
+              <p className="price">${product.price.toFixed(2)}</p>
+              <p className="quantity">Quantity: 1</p>
+              <button className="buy-button">Buy Now</button>
+            </div>
+          ))}
 
           <section className="App-section">
             <button
               className="home-button"
-              style={styles.ButtonStyledStyle}
               onClick={() => window.FloatingInbox.open()}>
               Open
             </button>
             <button
               className="home-button"
-              style={{ ...styles.ButtonStyledStyle, marginLeft: 10 }}
               onClick={() => window.FloatingInbox.close()}>
               Close
             </button>
@@ -144,7 +160,8 @@ const InboxPage = ({ isPWA = false }) => {
         wallet={signer}
         isPWA={isPWA}
       />
-    </>
+    </div>
   );
 };
+
 export default InboxPage;
