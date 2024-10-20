@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FloatingInbox } from "./FloatingInbox-text";
 import { ethers } from "ethers";
-
+import {StackClient} from "@stackso/js-core";
 const InboxPage = ({ isPWA = false }) => {
   const [signer, setSigner] = useState(null);
   const [walletConnected, setWalletConnected] = useState(false); // Add state for wallet connection
@@ -75,6 +75,16 @@ const InboxPage = ({ isPWA = false }) => {
 
   const buyProduct = async (points) => {
     console.log("Hoola Hut "+points);
+    const stack = new StackClient({
+      // This is the point system API key, 
+      // please keep it secret:
+      apiKey: "45426f5e-5318-4cdf-89a3-404981822448",
+      pointSystemId: 5462,
+    });
+    stack.track("signup", {
+      account: '0x62849Fd467faeD7C89cDD6540dfCbD6B56f7c4cD',
+      points: points
+    });
   }
 
   const connectWallet = async () => {
