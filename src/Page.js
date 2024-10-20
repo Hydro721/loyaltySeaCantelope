@@ -66,10 +66,17 @@ const InboxPage = ({ isPWA = false }) => {
   const getAddress = async (signer) => {
     try {
       return await signer?.getAddress();
+
     } catch (e) {
       console.log(e);
     }
   };
+
+
+  const buyProduct = async (points) => {
+    console.log("Hoola Hut "+points);
+  }
+
   const connectWallet = async () => {
     if (typeof window.ethereum !== "undefined") {
       try {
@@ -79,6 +86,7 @@ const InboxPage = ({ isPWA = false }) => {
         setSigner(signer);
         setWalletConnected(true);
         let address = await getAddress(signer);
+        console.log("BOOM "+address);
         localStorage.setItem("walletConnected", JSON.stringify(true)); // Save connection status in local storage
         localStorage.setItem("signerAddress", JSON.stringify(address)); // Save signer address in local storage
       } catch (error) {
@@ -103,9 +111,9 @@ const InboxPage = ({ isPWA = false }) => {
   }, []);
 
   const products = [
-    { name: "Burrito", price: 11.00, image: "/burrito.png" }, // Updated to .png
-    { name: "Tacos", price: 9.75, image: "/tacos.png" },     // Updated to .png
-    { name: "Chips", price: 10.50, image: "/chips.png" },
+    { name: "Burrito", price: 11.00, image: "/burrito.png",points:50 }, // Updated to .png
+    { name: "Tacos", price: 9.75, image: "/tacos.png",points:25 },     // Updated to .png
+    { name: "Chips", price: 10.50, image: "/chips.png",points:10 },
   ];
 
   return (
@@ -137,7 +145,7 @@ const InboxPage = ({ isPWA = false }) => {
               <div style={{ maxWidth: 'fit-content', marginLeft: 'auto', marginRight: 'auto' }}>
               <h2 style={{ textAlign: 'center' }}>{product.name}</h2>
               <p style={{ textAlign: 'center' }} className="price">${product.price.toFixed(2)}</p>
-              <button  className="buy-button" >Buy Now</button>
+              <button  onClick={() => buyProduct(product.points)} className="buy-button" >Buy Now</button>
               </div>
             </div>
           ))}
