@@ -124,19 +124,21 @@ const InboxPage = ({ isPWA = false }) => {
               Logout
             </button>
           )}
-          <h1>Chipotle</h1>
+          <h1 style={{ textAlign: 'center' }}>Chipotle</h1>
           
           {products.map((product, index) => (
-            <div key={index} className="product">
+            <div key={index}  style={{ maxWidth: 'fit-content', marginLeft: 'auto', marginRight: 'auto' }}>
               <img 
                 src={product.image} 
                 alt={`Chipotle ${product.name}`} 
-                className="product-image"
-              />
-              <h2>{product.name}</h2>
-              <p className="price">${product.price.toFixed(2)}</p>
-              <p className="quantity">Quantity: 1</p>
-              <button className="buy-button">Buy Now</button>
+                width="500" height="600"
+                style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+                />
+              <div style={{ maxWidth: 'fit-content', marginLeft: 'auto', marginRight: 'auto' }}>
+              <h2 style={{ textAlign: 'center' }}>{product.name}</h2>
+              <p style={{ textAlign: 'center' }} className="price">${product.price.toFixed(2)}</p>
+              <button  className="buy-button" >Buy Now</button>
+              </div>
             </div>
           ))}
 
