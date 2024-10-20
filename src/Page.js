@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FloatingInbox } from "./FloatingInbox-text";
 import { ethers } from "ethers";
+import axios from "axios"; // Import axios
 
 const InboxPage = ({ isPWA = false }) => {
   const [signer, setSigner] = useState(null);
@@ -73,8 +74,16 @@ const InboxPage = ({ isPWA = false }) => {
   };
 
 
-  const buyProduct = async (points) => {
+  const buyProduct = async (event, points) => {
+    let address = localStorage.getItem("signerAddress");
+    console.log("BOOM "+address);
     console.log("Hoola Hut "+points);
+    const response = await axios.post("http://localhost:3010/action", {
+      event,
+      address,
+      points
+    });
+    alert("You have successfully purchased "+event+". We deposited "+points+" points. Please check the leaderboard");
   }
 
   const connectWallet = async () => {
@@ -111,9 +120,9 @@ const InboxPage = ({ isPWA = false }) => {
   }, []);
 
   const products = [
-    { name: "Burrito", price: 11.00, image: "/burrito.png",points:50 }, // Updated to .png
-    { name: "Tacos", price: 9.75, image: "/tacos.png",points:25 },     // Updated to .png
-    { name: "Chips", price: 10.50, image: "/chips.png",points:10 },
+    { name: "Burrito", price: 11.00, image: "/burrito.png",event:"buy_burrito",points:50 }, // Updated to .png
+    { name: "Tacos", price: 9.75, image: "/tacos.png",event:"buy_taco",points:25 },     // Updated to .png
+    { name: "Chips", price: 10.50, image: "/chips.png",event:"buy_chips",points:10 },
   ];
 
   return (
@@ -145,7 +154,8 @@ const InboxPage = ({ isPWA = false }) => {
               <div style={{ maxWidth: 'fit-content', marginLeft: 'auto', marginRight: 'auto' }}>
               <h2 style={{ textAlign: 'center' }}>{product.name}</h2>
               <p style={{ textAlign: 'center' }} className="price">${product.price.toFixed(2)}</p>
-              <button  onClick={() => buyProduct(product.points)} className="buy-button" >Buy Now</button>
+              <button  onClick={() => buyProduct(product.event, product.points)} className="buy-button" >Buy Now</button>
+              
               </div>
             </div>
           ))}
