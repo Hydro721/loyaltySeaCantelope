@@ -63,18 +63,9 @@ button {
     margin-bottom: 15px;
 }
 
-/*
-.buy-button {
-    background-color: #A81612;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-    */
+
+
+
 
 .buy-button:hover {
     background-color: #8B0000;
